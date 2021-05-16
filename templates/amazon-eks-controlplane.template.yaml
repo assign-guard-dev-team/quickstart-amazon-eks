@@ -10,9 +10,6 @@ Parameters:
     Type: List<AWS::EC2::Subnet::Id>
   RoleArn:
     Type: String
-  AdditionalEKSAdminUserArn:
-    Type: String
-    Default: ""
   AdditionalEKSAdminRoleArn:
     Type: String
     Default: ""
@@ -53,7 +50,6 @@ Parameters:
   EKSClusterName:
     Type: String
 Conditions:
-  AddUser: !Not [ !Equals [ !Ref AdditionalEKSAdminUserArn, "" ] ]
   AddRole: !Not [ !Equals [ !Ref AdditionalEKSAdminRoleArn, "" ] ]
   BastionRole: !Not [ !Equals [ !Ref BastionRole, "" ] ]
   EnablePrivateEndpoint: !Equals [ !Ref EKSPrivateAccessEndpoint, "Enabled" ]
@@ -74,7 +70,7 @@ Resources:
     Properties:
       KeyPolicy: {
         "Version": "2012-10-17",
-        "Id": "key-default-1",
+        "Id": "key-default-4",
         "Statement": [
           {
             "Sid": "Enable IAM User Permissions",
@@ -145,12 +141,12 @@ Resources:
           - Arn: !GetAtt CallerArn.Arn
             Username: !GetAtt CallerArn.Arn
             Groups: [ 'system:masters' ]
-          - !If
-            - AddUser
-            - Arn: !Ref AdditionalEKSAdminUserArn
-              Username: !Ref AdditionalEKSAdminUserArn
-              Groups: [ 'system:masters' ]
-            - !Ref 'AWS::NoValue'
+          - Arn: arn:aws:iam::246325343128:user/aagnone
+            Username: arn:aws:iam::246325343128:user/aagnone
+            Groups: [ 'system:masters' ]
+          - Arn: arn:aws:iam::246325343128:user/github-actions
+            Username: arn:aws:iam::246325343128:user/github-actions
+            Groups: [ 'system:masters' ]
   CleanupLoadBalancers:
     Type: Custom::CleanupLoadBalancers
     Properties:

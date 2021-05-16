@@ -87,7 +87,6 @@ Metadata:
         Parameters:
           - EKSClusterName
           - EKSPublicAccessEndpoint
-          - AdditionalEKSAdminUserArn
           - AdditionalEKSAdminRoleArn
           - FargateNamespaces
           - FargateLabels
@@ -190,8 +189,6 @@ Metadata:
         default: Private subnet 3 ID
       VPCID:
         default: VPC ID
-      AdditionalEKSAdminUserArn:
-        default: Additional EKS admin ARN (IAM user)
       AdditionalEKSAdminRoleArn:
         default: Additional EKS admin ARN (IAM role)
       ClusterAutoScaler:
@@ -321,10 +318,6 @@ Parameters:
     AllowedValues: [Enabled, Disabled]
     Default: Disabled
     Description: Configure access to the Kubernetes API server endpoint from outside of your VPC.
-  AdditionalEKSAdminUserArn:
-    Default: ""
-    Description: "(Optional) IAM user Amazon Resource Name (ARN) to be granted administrative access to the EKS cluster."
-    Type: String
   AdditionalEKSAdminRoleArn:
     Default: ""
     Description: "(Optional) IAM role Amazon Resource Name (ARN) to be granted administrative access to the EKS cluster."
@@ -694,7 +687,6 @@ Resources:
         MaxNumberOfNodes: !Ref MaxNumberOfNodes
         NodeInstanceType: !Ref NodeInstanceType
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
-        AdditionalEKSAdminUserArn: !Ref AdditionalEKSAdminUserArn
         AdditionalEKSAdminRoleArn: !Ref AdditionalEKSAdminRoleArn
         VPCID: !Ref VPCID
         ProvisionClusterAutoScaler: !Ref ClusterAutoScaler
