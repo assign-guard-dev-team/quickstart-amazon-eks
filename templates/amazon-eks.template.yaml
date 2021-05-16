@@ -28,9 +28,6 @@ Parameters:
     Type: String
     AllowedValues: [Enabled, Disabled]
     Default: Disabled
-  AdditionalEKSAdminUserArn:
-    Type: String
-    Default: ""
   AdditionalEKSAdminRoleArn:
     Type: String
     Default: ""
@@ -581,7 +578,6 @@ Resources:
               - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID ]]
               - !Join [",", [ !Ref PrivateSubnet1ID ]]
         RoleArn: !Sub ["arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${Prefix}-ControlPlane", {Prefix: !FindInMap [Config, Prefix, Value]}]
-        AdditionalEKSAdminUserArn: !Ref AdditionalEKSAdminUserArn
         AdditionalEKSAdminRoleArn: !Ref AdditionalEKSAdminRoleArn
         KubernetesVersion: ~~/<ConfigSetName>/controlplane/KubernetesVersion~~
         BastionRole: !GetAtt IamStack.Outputs.BastionRole

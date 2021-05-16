@@ -93,7 +93,6 @@ Metadata:
         Parameters:
           - EKSClusterName
           - EKSPublicAccessEndpoint
-          - AdditionalEKSAdminUserArn
           - AdditionalEKSAdminRoleArn
           - FargateNamespaces
           - FargateLabels
@@ -201,8 +200,6 @@ Metadata:
         default: Number of nodes
       MaxNumberOfNodes:
         default: Maximum number of nodes
-      AdditionalEKSAdminUserArn:
-        default: Additional EKS admin ARN (IAM user)
       AdditionalEKSAdminRoleArn:
         default: Additional EKS admin ARN (IAM role)
       ClusterAutoScaler:
@@ -381,10 +378,6 @@ Parameters:
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16–28
     Default: 10.0.0.0/16
     Description: CIDR block for the VPC.
-    Type: String
-  AdditionalEKSAdminUserArn:
-    Default: ""
-    Description: "(Optional) IAM user ARN to be granted administrative access to the EKS cluster."
     Type: String
   AdditionalEKSAdminRoleArn:
     Default: ""
@@ -773,7 +766,6 @@ Resources:
         NodeInstanceFamily: !Ref NodeInstanceFamily
         NodeInstanceType: !Ref NodeInstanceType
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
-        AdditionalEKSAdminUserArn: !Ref AdditionalEKSAdminUserArn
         AdditionalEKSAdminRoleArn: !Ref AdditionalEKSAdminRoleArn
         VPCID: !GetAtt VPCStack.Outputs.VPCID
         ProvisionClusterAutoScaler: !Ref ClusterAutoScaler
